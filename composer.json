@@ -1,0 +1,22 @@
+{
+    "name": "courier/class-finder",
+    "description": "Finds classes.",
+    "require": {
+        "symfony/finder": "^6.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Courier\\ClassFinder\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Aidan Casey",
+            "email": "aidan@caseyhouse.net"
+        }
+    ]
+}
