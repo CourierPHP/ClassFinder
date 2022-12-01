@@ -3,12 +3,10 @@
 namespace Courier\ClassFinder\Reflection;
 
 use ArrayAccess;
-use Courier\ClassFinder\TestAttribute;
 use Iterator;
 use ReflectionClass;
 use UnexpectedValueException;
 
-#[TestAttribute]
 final class ReflectionClassCollection implements ArrayAccess, Iterator
 {
     private int $key = 0;
