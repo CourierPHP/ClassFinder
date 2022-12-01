@@ -6,6 +6,7 @@ use Attribute;
 use ReflectionAttribute;
 use ReflectionClass;
 use ReflectionClassConstant;
+use Throwable;
 
 class ClassAttributeFilter implements Filter
 {
@@ -51,7 +52,7 @@ class ClassAttributeFilter implements Filter
         $constants = $reflectionClass->getConstants();
 
         foreach ($constants as $constant) {
-            $attributes = $constant->getAttributes($this->attribute, ReflectionAttribute::IS_INSTANCEOF);
+            $attributes = $constant->getAttributes($this->attribute, ReflectionAttribute::IS_INSTANCEOF) ?? [];
 
             if (empty($attributes)) {
                 continue;

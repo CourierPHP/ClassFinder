@@ -4,7 +4,7 @@ namespace Courier\ClassFinder\Filter;
 
 use ReflectionClass;
 
-class ClassNameFilter implements Filter
+class ClassFullyQualifiedNameFilter implements Filter
 {
     public function __construct(private readonly string $name)
     {}

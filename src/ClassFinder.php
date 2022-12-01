@@ -4,12 +4,14 @@ namespace Courier\ClassFinder;
 
 use Closure;
 use Courier\ClassFinder\ClassResolver\ClassResolver;
+use Courier\ClassFinder\ClassResolver\Psr4Resolver;
 use Courier\ClassFinder\Filter\ClassAttributeFilter;
 use Courier\ClassFinder\Filter\ClassConstantFilter;
 use Courier\ClassFinder\Filter\ClassMethodFilter;
-use Courier\ClassFinder\Filter\ClassNameFilter;
+use Courier\ClassFinder\Filter\ClassFullyQualifiedNameFilter;
 use Courier\ClassFinder\Filter\ClassNamespaceFilter;
 use Courier\ClassFinder\Filter\ClassPropertyFilter;
+use Courier\ClassFinder\Filter\ClassShortNameFilter;
 use Courier\ClassFinder\Filter\Filter;
 use Courier\ClassFinder\Reflection\ReflectionClassCollection;
 
@@ -20,6 +22,13 @@ final class ClassFinder
 
     /** @var array<array-key,Closure|Filter> $filters */
     private array $filters = [];
+
+    public static function PSR4(): self
+    {
+        return new self([
+            new Psr4Resolver()
+        ]);
+    }
 
     public function __construct(array $resolvers = [])
     {
@@ -42,7 +51,7 @@ final class ClassFinder
         return $this;
     }
 
-    public function addResolver($resolver): self
+    public function addResolver(ClassResolver $resolver): self
     {
         $this->resolvers[] = $resolver;
 
@@ -56,9 +65,14 @@ final class ClassFinder
         return $this;
     }
 
+    public function fullyQualifiedName(string $name): self
+    {
+        return $this->filter(new ClassFullyQualifiedNameFilter($name));
+    }
+
     public function name(string $name): self
     {
-        return $this->filter(new ClassNameFilter($name));
+        return $this->filter(new ClassShortNameFilter($name));
     }
 
     public function namespace(string $namespace): self

@@ -2,10 +2,14 @@
 
 namespace Courier\ClassFinder\Reflection;
 
+use ArrayAccess;
+use Courier\ClassFinder\TestAttribute;
 use Iterator;
 use ReflectionClass;
+use UnexpectedValueException;
 
-final class ReflectionClassCollection implements Iterator
+#[TestAttribute]
+final class ReflectionClassCollection implements ArrayAccess, Iterator
 {
     private int $key = 0;
 
@@ -65,6 +69,32 @@ final class ReflectionClassCollection implements Iterator
         if ($key !== false) {
             unset($this->items[$key]);
         }
+    }
+
+    public function offsetExists(mixed $offset): bool
+    {
+        return isset($this->items[$offset]);
+    }
+
+    public function offsetGet(mixed $offset): ReflectionClass
+    {
+        return $this->items[$offset];
+    }
+
+    public function offsetSet(mixed $offset, mixed $value): void
+    {
+        if (! $value instanceof ReflectionClass) {
+            throw new UnexpectedValueException(
+                "Value must be an instance of a [ReflectionClass]."
+            );
+        }
+
+        $this->items[$offset] = $value;
+    }
+
+    public function offsetUnset(mixed $offset): void
+    {
+        unset($this->items[$offset]);
     }
 
     public function rewind(): void
