@@ -3,11 +3,12 @@
 namespace Courier\ClassFinder\Reflection;
 
 use ArrayAccess;
+use Countable;
 use Iterator;
 use ReflectionClass;
 use UnexpectedValueException;
 
-final class ReflectionClassCollection implements ArrayAccess, Iterator
+final class ReflectionClassCollection implements ArrayAccess, Countable, Iterator
 {
     private int $key = 0;
 
@@ -26,11 +27,9 @@ final class ReflectionClassCollection implements ArrayAccess, Iterator
         return $this;
     }
 
-    public function empty(): self
+    public function count(): int
     {
-        $this->items = [];
-
-        return $this;
+        return count($this->items);
     }
 
     public function fill(array $items): self
@@ -42,22 +41,14 @@ final class ReflectionClassCollection implements ArrayAccess, Iterator
         return $this;
     }
 
-    /**
-     * @param callable(ReflectionClass $class) $filter
-     * @return $this
-     */
     public function filter(callable $filter): self
     {
-        return new ReflectionClassCollection(
-            array_filter($this->items, $filter)
-        );
+        return new self(array_filter($this->items, $filter));
     }
 
     public function merge(ReflectionClassCollection $collection): self
     {
-        $this->items = array_unique(array_merge($collection->items, $this->items));
-
-        return $this;
+        return new self(array_merge($collection->items, $this->items));
     }
 
     public function remove(ReflectionClass $reflectionClass): self
@@ -67,6 +58,8 @@ final class ReflectionClassCollection implements ArrayAccess, Iterator
         if ($key !== false) {
             unset($this->items[$key]);
         }
+
+        return $this;
     }
 
     public function offsetExists(mixed $offset): bool

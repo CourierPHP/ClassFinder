@@ -13,6 +13,11 @@
             "Courier\\ClassFinder\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Courier\\Tests\\ClassFinder\\": "tests/"
+        }
+    },
     "authors": [
         {
             "name": "Aidan Casey",

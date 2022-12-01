@@ -105,7 +105,7 @@ final class ClassFinder
         $classes = new ReflectionClassCollection;
 
         foreach ($this->resolvers as $resolver) {
-            $classes->merge(
+            $classes = $classes->merge(
                 $resolver->resolve($directories)
             );
         }
