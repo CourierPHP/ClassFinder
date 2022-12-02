@@ -2,6 +2,7 @@
 
 namespace Courier\ClassFinder;
 
+use Attribute;
 use Closure;
 use Courier\ClassFinder\ClassResolver\ClassResolver;
 use Courier\ClassFinder\ClassResolver\Psr4Resolver;
@@ -14,6 +15,7 @@ use Courier\ClassFinder\Filter\ClassPropertyFilter;
 use Courier\ClassFinder\Filter\ClassShortNameFilter;
 use Courier\ClassFinder\Filter\Filter;
 use Courier\ClassFinder\Reflection\ReflectionClassCollection;
+use ReflectionClassConstant;
 
 final class ClassFinder
 {
